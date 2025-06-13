@@ -19,7 +19,7 @@ const Login= ()=>{
 	}
 	return(
 		<div className='flex min-h-screen items-center justify-center'>
-			<div className='border-2 rounded-xl border-emerald-600 p-20'>
+			<div className='border-2 bg-[#1c1b1b] rounded-xl border-emerald-600 p-20'>
 				<form 
 				onSubmit={(e)=>{                       //Created a submit handler to handle form submission
 					submitHandler(e);

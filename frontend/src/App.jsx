@@ -12,7 +12,7 @@ function App() {
     <>
     {/* <Login/> */}
     {/* <EmployeeDashboard/> */}
-    <AdminDashboard />
+    {/* <AdminDashboard /> */}
     </>
   )
   
