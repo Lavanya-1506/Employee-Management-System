@@ -1,13 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import AuthContext from './context/AuthContext.jsx'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import AuthProvider from './context/AuthProvider'
+import './index.css'; // or './App.css' or your Tailwind CSS file
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <AuthContext/>
-    <App />
-    <AuthContext/>
-  </StrictMode>,
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  </React.StrictMode>
 )

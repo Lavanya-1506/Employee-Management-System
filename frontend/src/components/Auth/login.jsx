@@ -2,7 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-const Login= ()=>{
+const Login= ({handleLogin})=>{    //here receive 
+	console.log(handleLogin)
 
 	const [email, setEmail] = useState('');
 	const[password, setPassword] = useState('')
@@ -11,6 +12,7 @@ const Login= ()=>{
 	const submitHandler=(e)=>{
 		e.preventDefault();         //pass event e and set the event to prevent the default behaviour of the form submission
 		// Here you can handle the form submission, e.g., send data to the server
+		handleLogin(email, password) //call handleLogin and pass email and password   
 		console.log('Email is:',email);
 		console.log('Password is:',password);
 
