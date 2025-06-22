@@ -1,2 +1,2 @@
 # Employee-Management-System
-This a Employee Task Management system
+This is a React-based Employee Management System with role-based login for Admin and Employees. The Admin dashboard allows task assignment and displays a table showing each employee’s task status counts (Completed, New, Active, Failed). The Employee dashboard shows assigned tasks along with a summary of task counts, helping track progress clearly. The system ensures organized task management with separate views and controls for each user role.
