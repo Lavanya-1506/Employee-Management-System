@@ -10,52 +10,51 @@ import { useState, useEffect, useContext } from 'react';
 import './index.css'; // or './App.css' or your Tailwind CSS file
 
 function App() {
+  const [user, setUser] = useState(null)
+  const authData = useContext(AuthContext)
+  const [loggedInUserData, setloggedInUserData] = useState(null)
 
-  const [user, setUser] =useState(null)
-  const authData= useContext(AuthContext)
+  
+  useEffect(()=>{
+    const loggedInUser= localStorage.getItem('loggedInUser')
 
-  useEffect (()=>{
+    if(loggedInUser){
+      const userData = JSON.parse(loggedInUser)
+      setloggedInUserData(userData.data)
+      console.log("User logged in")
 
-    if(authData){
-      const loggedInUser= localStorage.getItem("loggedInUser")
-      if(loggedInUser){
-        setUser(loggedInUser.role)
-
-      }
     }
 
-  }, [authData]);
-  
+  }, [])
 
-  const handleLogin = (email, password) =>{        //function to handlelogin 
-    if(email =='admin@me.com' && password == '123'){
-       setUser('admin')
-       localStorage.setItem('loggedInUser', JSON.stringify({role:'admin'}))
-       console.log(user)
-    }else if (authData && authData.employees.find((e)=> email ==e.email && e.password ==password)){
-      setUser("Employee")
-      localStorage.setItem('loggedInUser', JSON.stringify({role:'employee'}))
+  if (!authData) return null; // Wait for context
 
-      console.log(user)
 
-    }else
-       alert("Invalid Credentials")
 
+  const handleLogin = (email, password) => {
+    if (email === 'admin@me.com' && password === '123') {
+      setUser('admin')
+      localStorage.setItem('loggedInUser', JSON.stringify({role:'admin'}))
+    } else if (authData) {
+      const employee = authData.employees.find(
+        (e) => email === e.email && password === e.password
+      )
+      if (employee) {
+        setUser('employee')
+        setloggedInUserData(employee)
+        localStorage.setItem('loggedInUser', JSON.stringify({role:'employee', data:employee}))
+      } else {
+        alert("Invalid Credentials")
+      }
+    } else {
+      alert("Invalid Credentials")
+    }
   }
 
-  // useEffect(()=>{       
-  //   // setLocalStorage()           //call the setLocalstorage 
-  //   getLocalStorage()          //call getLocalStorage
-  // },)
-
-  
-  return(
+  return (
     <>
-      {!user ? <Login handleLogin={handleLogin}/>: ''}       
-      {/* here handleLogin is pass */}
-      {user == 'admin' ? <AdminDashboard /> : <EmployeeDashboard />}
-      {/* <EmployeeDashboard/> */}
-      {/* <AdminDashboard /> */}
+      {!user ? <Login handleLogin={handleLogin}/> : ''}
+      {user === 'admin' ? <AdminDashboard changeUser={setUser}/> : (user === 'employee' ? <EmployeeDashboard changeUser={setUser} data={loggedInUserData} /> : null)}
     </>
   )
 }

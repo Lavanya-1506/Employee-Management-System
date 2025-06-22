@@ -1,8 +1,15 @@
 const employees = [
   {
     id: 1,
+    firstName: "Aarav",
     email: "employee1@example.com",
     password: "123",
+    taskCount: {
+      active: 2,
+      newTask: 1,
+      completed: 1,
+      failed: 1
+    },
     tasks: [
       {
         title: "Design Login Page",
@@ -38,8 +45,15 @@ const employees = [
   },
   {
     id: 2,
+    firstName: "Ishita",
     email: "employee2@example.com",
     password: "123",
+    taskCount: {
+      active: 2,
+      newTask: 2,
+      completed: 1,
+      failed: 1
+    },
     tasks: [
       {
         title: "Update README",
@@ -85,8 +99,15 @@ const employees = [
   },
   {
     id: 3,
+    firstName: "Kunal",
     email: "employee3@example.com",
     password: "123",
+    taskCount: {
+      active: 1,
+      newTask: 1,
+      completed: 1,
+      failed: 1
+    },
     tasks: [
       {
         title: "Backend API Setup",
@@ -122,8 +143,15 @@ const employees = [
   },
   {
     id: 4,
+    firstName: "Neha",
     email: "employee4@example.com",
     password: "123",
+    taskCount: {
+      active: 2,
+      newTask: 1,
+      completed: 1,
+      failed: 1
+    },
     tasks: [
       {
         title: "Optimize Images",
@@ -169,8 +197,15 @@ const employees = [
   },
   {
     id: 5,
+    firstName: "Rohan",
     email: "employee5@example.com",
     password: "123",
+    taskCount: {
+      active: 3,
+      newTask: 2,
+      completed: 1,
+      failed: 1
+    },
     tasks: [
       {
         title: "Set Up CI/CD",
@@ -225,6 +260,7 @@ const employees = [
     ]
   }
 ];
+
 
 const admin = [
   {
