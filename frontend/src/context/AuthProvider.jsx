@@ -8,8 +8,8 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     setLocalStorage()
-    const { employees} = getLocalStorage()
-    setUserData({ employees })
+    const { employees, admin} = getLocalStorage()
+    setUserData({ employees, admin })
   }, []) // Only run once
 
   return (

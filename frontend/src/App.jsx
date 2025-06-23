@@ -1,62 +1,68 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'  
+
+
+
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
 import Login from "./components/Auth/login";
 import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
 import AdminDashboard from "./components/Dashboard/AdminDashboard";
-import { setLocalStorage, getLocalStorage } from "./utils/localStorage"; // <-- import getLOcalStorage
-import { AuthContext } from './context/AuthProvider';
 import { useState, useEffect, useContext } from 'react';
-import './index.css'; // or './App.css' or your Tailwind CSS file
+import { AuthContext } from './context/AuthProvider';
+import './index.css';
 
 function App() {
-  const [user, setUser] = useState(null)
-  const authData = useContext(AuthContext)
-  const [loggedInUserData, setloggedInUserData] = useState(null)
+  const [user, setUser] = useState(null);
+  const [loggedInUserData, setLoggedInUserData] = useState(null);
+  const [authData] = useContext(AuthContext); // ✅ Proper destructuring
 
-  
-  useEffect(()=>{
-    const loggedInUser= localStorage.getItem('loggedInUser')
+  // Restore session from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('loggedInUser');
+    if (storedUser) {
+      const parsed = JSON.parse(storedUser);
+      setUser(parsed.role);
 
-    if(loggedInUser){
-      const userData = JSON.parse(loggedInUser)
-      setloggedInUserData(userData.data)
-      console.log("User logged in")
-
+      if (parsed.role === 'employee' && parsed.data) {
+        setLoggedInUserData(parsed.data);
+      }
     }
+  }, []);
 
-  }, [])
-
-  if (!authData) return null; // Wait for context
-
-
-
+  // Login handler
   const handleLogin = (email, password) => {
     if (email === 'admin@me.com' && password === '123') {
-      setUser('admin')
-      localStorage.setItem('loggedInUser', JSON.stringify({role:'admin'}))
-    } else if (authData) {
+      setUser('admin');
+      localStorage.setItem('loggedInUser', JSON.stringify({ role: 'admin' }));
+    } else if (authData && Array.isArray(authData.employees)) {
       const employee = authData.employees.find(
         (e) => email === e.email && password === e.password
-      )
+      );
+
       if (employee) {
-        setUser('employee')
-        setloggedInUserData(employee)
-        localStorage.setItem('loggedInUser', JSON.stringify({role:'employee', data:employee}))
+        setUser('employee');
+        setLoggedInUserData(employee);
+        localStorage.setItem(
+          'loggedInUser',
+          JSON.stringify({ role: 'employee', data: employee })
+        );
       } else {
-        alert("Invalid Credentials")
+        alert("Invalid Credentials");
       }
     } else {
-      alert("Invalid Credentials")
+      alert("Invalid Credentials");
     }
-  }
+  };
 
   return (
     <>
-      {!user ? <Login handleLogin={handleLogin}/> : ''}
-      {user === 'admin' ? <AdminDashboard changeUser={setUser}/> : (user === 'employee' ? <EmployeeDashboard changeUser={setUser} data={loggedInUserData} /> : null)}
+      {!user && <Login handleLogin={handleLogin} />}
+      {user === 'admin' && <AdminDashboard changeUser={setUser} />}
+      {user === 'employee' && (
+        <EmployeeDashboard changeUser={setUser} data={loggedInUserData} />
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

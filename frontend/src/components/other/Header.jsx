@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { setLocalStorage } from '../../utils/localStorage';
 
-const Header = ({ changeUser, data }) => {
+const Header = (props) => {
     const [username, setUsername] = useState('');
+    const data = props.data;
 
     useEffect(() => {
         if (!data) {
@@ -9,13 +11,11 @@ const Header = ({ changeUser, data }) => {
         } else {
             setUsername(data.firstName);
         }
-    }, [data]);
+    }, []);
 
     const logOut = () => {
         localStorage.setItem('loggedInUser', '');
-        if (typeof changeUser === 'function') {
-            changeUser(null);
-        }
+        props.changeUser('')
         // window.location.reload(); // Uncomment if you want a hard reload
     };
 
